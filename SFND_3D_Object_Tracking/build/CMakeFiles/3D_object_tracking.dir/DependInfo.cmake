@@ -4,16 +4,17 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/workspace/SFND_3D_Object_Tracking/src/FinalProject_Camera.cpp" "/home/workspace/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/FinalProject_Camera.cpp.o"
-  "/home/workspace/SFND_3D_Object_Tracking/src/camFusion_Student.cpp" "/home/workspace/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/camFusion_Student.cpp.o"
-  "/home/workspace/SFND_3D_Object_Tracking/src/lidarData.cpp" "/home/workspace/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/lidarData.cpp.o"
-  "/home/workspace/SFND_3D_Object_Tracking/src/matching2D_Student.cpp" "/home/workspace/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/matching2D_Student.cpp.o"
-  "/home/workspace/SFND_3D_Object_Tracking/src/objectDetection2D.cpp" "/home/workspace/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/objectDetection2D.cpp.o"
+  "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/src/camFusion_Student.cpp" "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/camFusion_Student.cpp.o"
+  "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/src/finalProject_Camera.cpp" "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/finalProject_Camera.cpp.o"
+  "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/src/lidarData.cpp" "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/lidarData.cpp.o"
+  "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/src/matching2D_Student.cpp" "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/matching2D_Student.cpp.o"
+  "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/src/objectDetection2D.cpp" "/home/alsarmi/Udacity_C++/UdacitySensorFusionProjects/SFND_3D_Object_Tracking/build/CMakeFiles/3D_object_tracking.dir/src/objectDetection2D.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../include"
   "/usr/local/include/opencv4"
   )
 

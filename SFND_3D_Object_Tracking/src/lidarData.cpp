@@ -1,10 +1,9 @@
 
-#include <iostream>
+#include "../include/lidarData.hpp"
 #include <algorithm>
+#include <iostream>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include "lidarData.hpp"
-
 
 using namespace std;
 
