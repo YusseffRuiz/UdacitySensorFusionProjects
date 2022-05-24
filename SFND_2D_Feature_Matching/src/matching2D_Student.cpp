@@ -82,17 +82,15 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
 
         extractor = cv::xfeatures2d::FREAK::create();
     }
-    else{ 
-
-        if (descriptorType.compare("SIFT") == 0)/// This cannot be used with binary matches
+    else if (descriptorType.compare("SIFT") == 0)/// This cannot be used with binary matches
         {
             extractor = cv::xfeatures2d::SIFT::create();
         }
-        else if (descriptorType.compare("AKAZE") == 0){
+    else if (descriptorType.compare("AKAZE") == 0)
+        {
             extractor = cv::AKAZE::create();
         }
-    } 
-    
+     
 
     // perform feature description
     double t = (double)cv::getTickCount();
@@ -226,7 +224,7 @@ void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std:
         orbPtr->detect(img, keypoints);
     }
     else if(detectorType.compare("AKAZE")==0){
-        cv::Ptr<cv::FeatureDetector> akazePtr = cv::AKAZE::create();
+        cv::Ptr<cv::AKAZE> akazePtr = cv::AKAZE::create();
         akazePtr->detect(img, keypoints);
     }
     

@@ -19,8 +19,8 @@
 using namespace std;
 
 
-const string DETECTOR = "SIFT"; //SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
-const string EXTRACTOR = "SIFT"; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
+const string DETECTOR = "FAST"; //SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
+const string EXTRACTOR = "ORB"; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
 const string MATCHER = "MAT_BF"; // MAT_BF, MAT_FLANN
 const string NN = "SEL_KNN"; // SEL_NN or SEL_KNN
 
@@ -76,23 +76,17 @@ int main(int argc, const char *argv[])
         // push image into data frame buffer
         DataFrame frame;
         frame.cameraImg = imgGray;
-        if(counterOn){
-            
-            if(count>=dataBufferSize){
-                dataBuffer.push_back(frame);
-                dataBuffer.pop_back();
-                counterOn = false;
-            }
-            else{
-                dataBuffer.push_back(frame);
-            }
-            count++;
-        }
         dataBuffer.push_back(frame);
-        dataBuffer.pop_back();
+
+        if(dataBuffer.size() > dataBufferSize)
+            dataBuffer.erase(dataBuffer.begin());
 
         //// EOF STUDENT ASSIGNMENT
-        cout << "#1 : LOAD IMAGE INTO BUFFER done" << endl;
+        cout << "#1 : LOAD IMAGE INTO BUFFER done, Buffer Size: "<< dataBuffer.size() << endl;
+
+        if(dataBuffer.size()<=1){
+            continue;
+        }
 
         /* DETECT IMAGE KEYPOINTS */
 
@@ -167,7 +161,6 @@ int main(int argc, const char *argv[])
         //// STUDENT ASSIGNMENT
         //// TASK MP.4 -> add the following descriptors in file matching2D.cpp and enable string-based selection based on descriptorType
         //// -> BRIEF, ORB, FREAK, AKAZE, SIFT
-
         cv::Mat descriptors;
         string descriptorType = EXTRACTOR; // BRIEF, ORB, FREAK, AKAZE, SIFT
         descKeypoints((dataBuffer.end() - 1)->keypoints, (dataBuffer.end() - 1)->cameraImg, descriptors, descriptorType, timeCount);
