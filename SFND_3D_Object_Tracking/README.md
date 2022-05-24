@@ -31,3 +31,28 @@ In this final project, you will implement the missing parts in the schematic. To
 2. Make a build directory in the top level project directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./3D_object_tracking`.
+
+
+
+
+## Evaluation 1:
+Find where the Lidar values show incorrect or way off values:
+
+Figure
+
+<img src="images/TTC_34.png" width="779" height="414" />
+TTC Lidar: 34.3404 s
+Distance is at 7.55 m, however, since the TTC calculation depends on the previous value, it will show as increasing the time since the delta will give a higher value.
+
+<img src="images/TTC_3_83.png" width="779" height="414" />
+TTC Lidar: 3.83 seconds
+Distance is at 7.205. Same as before, Lidar values give a TTC based on the previous X value, which means it will be based on how faster the front car hits the break. 
+
+<img src="images/TTC_negative.png" width="779" height="414" />
+TTC Lidar shows negative?
+Since previous data was lower than current, the front car accelerated, changing how the value is calculated.
+
+
+
+
+
