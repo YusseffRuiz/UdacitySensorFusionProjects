@@ -32,3 +32,14 @@ See the classroom instruction and code comments for more details on each of thes
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./2D_feature_tracking`.
+
+
+## Top detection algorithms.
+Based on the information gathered on the excel sheet.
+Combinations (Detector + Descriptor):
+1. FAST + ORB
+2. FAST + BRIEF
+3. FAST + BRISK
+4. One last mention, since ORB detector seems to have a great performance as well.
+
+The values with FAST were close to 20 ms of response time, making it really quick on real-time performance, however, based on the matches, i will include the use of the ORB detector whenever possible.
