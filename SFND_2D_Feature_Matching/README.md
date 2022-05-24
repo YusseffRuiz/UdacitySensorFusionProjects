@@ -33,6 +33,33 @@ See the classroom instruction and code comments for more details on each of thes
 3. Compile: `cmake .. && make`
 4. Run it: `./2D_feature_tracking`.
 
+## Development of the project
+
+## 1. Data Buffer
+A small buffer was created by adding images into a Vector.
+This was done by a simple "if" statement, where only new values are erased if the vector was higher than dataBufferSize defined as two.
+To make sure the program started correctly, a new "if " statement was added to only start analysing when having more than 1 image in buffer.
+
+## 2. Keypoint Detection
+For Keypoint identification, we had to complete the Harris Method manually, since with OpenCV by default, only the corners were identificable, however, with help of the corners, the keypoints needed to be found.
+For this, we needed to go over two "for loops" to look under each row and column to find the response with higher values to add them into the keypoints, where the values matter the most.
+<img src="images/HarrisDetect.png" width="820" height="248" />
+
+
+For the other methods, it was pretty simple, since there was a feature detector for each of the types: Fast, Brisk, ORB, AKAZE and SIFT. Only using detect function from the openCV library.
+<img src="images/modernDetect.png" width="820" height="248" />
+
+## 3. Matching
+Finally the matching was done by implementing a descriptor extractor to match the keypoints detected on the last step.
+For this, it was necessary to compare previous and current image.
+This was easily done with the help of openCV methods "brisk, Brief, ORB, FREAK, SIFT and AKAZE.
+We only needed to add "if, else" statements for the feature selection.
+openCV has a default type "DescriptorExtractor" which takes the type of the extractor being created:
+<img src="images/descriptor.png" width="820" height="248" />
+
+
+
+
 
 ## Top detection algorithms.
 Based on the information gathered on the excel sheet.
