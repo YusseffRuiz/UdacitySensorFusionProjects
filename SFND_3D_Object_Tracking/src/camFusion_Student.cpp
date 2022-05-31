@@ -229,59 +229,36 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
 
 
 
-void clusterHelper(int i, std::vector<std::vector<float>>& points, std::vector<int> &cluster, std::vector<bool> &processed,  KdTree* tree, float distanceTol){
-	processed[i] = true;
-	cluster.push_back(i);
-	std::vector<int> nearbyPoints = tree->search(points[i],distanceTol);
-	for(int j : nearbyPoints){
-		if(!processed[j]){
-			clusterHelper(j, points, cluster, processed, tree, distanceTol);
-		}
-	}
-}
 
-std::vector<std::vector<int>> myEuclideanCluster(std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol)
-{
-    std::vector<std::vector<int>>  clusters;
-	std::vector<bool> processed(points.size(), false);
-
-	for(int i = 0; i < points.size(); i++){
-		if(!processed[i]){
-			std::vector<int> cluster;
-			clusterHelper(i, points, cluster, processed, tree, distanceTol);
-			clusters.push_back(cluster);
-		}
-
-	}
- 
-	return clusters;
-
-}
-
-std::vector<LidarPoint> filterOutliers(const std::vector<LidarPoint> &lidarPoints, float clusterTolerance){
+std::vector<LidarPoint> filterOutliers(const std::vector<LidarPoint> &lidarPoints){
 
     // Filtering by distance to the average of the cluster
-    KdTree* tree = new KdTree;
-    std::vector<std::vector<float>> points;
-    int sumX = 0, sumY = 0, sumZ = 0;
-
-    for(int i = 0; i< lidarPoints.size(); i++){
-        std::vector<float> point({lidarPoints[i].x, lidarPoints[i].y, lidarPoints[i].z});
-        sumY = sumY + lidarPoints[i].y;
-        points.push_back(point);
-        tree->insert(points[i],i);
-    }
-    std::vector<std::vector<int>> clusterIndex = myEuclideanCluster(points, tree, clusterTolerance);
-    sumY = sumY/lidarPoints.size();
-    
-    std::vector<LidarPoint> pointClustering;
-
-    for(auto& indices:clusterIndex) {
-        for(auto i: indices){
-            pointClustering.push_back(lidarPoints[i]);
-        }
-    }
-    return pointClustering;
+    	std::vector<LidarPoint> filteredData;
+	double pointsSum = 0;
+	
+	for(auto& it: lidarPoints){
+		pointsSum = pointsSum + it.x;
+	}
+	double meanPoints = pointsSum/lidarPoints.size();
+	
+	double pointsVariance = 0;
+	
+	for (auto& it : lidarPoints){
+		pointsVariance += pow((it.x - meanPoints),2);
+	}
+	pointsVariance = pointsVariance/(lidarPoints.size()-1);
+	double stdValue = sqrt(pointsVariance);
+	
+	double upperLimit = meanPoints + 2*stdValue;
+	double lowerLimit = meanPoints - 2*stdValue;
+	
+	for(int i = 0; i < lidarPoints.size() - 1; i++){
+		if((lidarPoints[i].x <= upperLimit) && (lidarPoints[i] >= lowerLimit)){
+			filteredData.push_back(lidarPoints[i]);
+		}
+	}
+	
+	return filteredData;
 
 }
 
@@ -293,24 +270,36 @@ void computeTTCLidar(std::vector<LidarPoint> &lidarPointsPrev, std::vector<Lidar
     std::cout.flush();
 
 
-    double minPrev = 10000, minCurr = 10000;
+    double minPrev = 0, minCurr = 0;
+    vector<double> xPrev, xCurr;
 
-    std::vector<LidarPoint> lidarPointsPrevClustered = filterOutliers(lidarPointsPrev, clusterTolerance);
+    std::vector<LidarPoint> lidarPointsPrevClustered = filterOutliers(lidarPointsPrev);
 
-    std::vector<LidarPoint> lidarPointsCurrClustered = filterOutliers(lidarPointsCurr, clusterTolerance);
+    std::vector<LidarPoint> lidarPointsCurrClustered = filterOutliers(lidarPointsCurr);
 
     for (auto& it : lidarPointsPrevClustered){
         if(abs(it.y) <= lanewidth / 2.0){
-            if(it.x < minPrev)
-                minPrev=it.x;
+            xPrev.push_back(it.x);
         }
     }
 
     for (auto& it : lidarPointsCurrClustered){
         if(abs(it.y) <= lanewidth / 2.0){
-            if(it.x < minCurr)
-                minCurr=it.x;
+           yPrev.push_back(it.x);
         }
+    }
+	
+    if(xCurr.size() >0){
+	    for(auto x:xCurr){
+		    minCurr+=x;
+	    }
+	    minCurr=minCurr/xCurr.size();
+    }
+    if(xPrev.size() >0){
+	    for(auto x:xPrev){
+		    minPrev+=x;
+	    }
+	    minPrev=minPrev/xPrev.size();
     }
     TTC = minCurr * dt / (minPrev- minCurr);
     cout << "MinXPrev: " << minPrev << " MinXCurr: "<<minCurr << endl;
