@@ -33,6 +33,32 @@ In this final project, you will implement the missing parts in the schematic. To
 4. Run it: `./3D_object_tracking`.
 
 
+## Procedure
+
+1. Match 3D Objects
+
+matchBoundingBoxes Function was implemented in camFusion_student.cpp file.
+It consisted in 2 for loops dedicated to go over the current and previous box on the images and select the the highest values to keep track on.
+<img src="images/matchBoundingBoxes.png" width="779" height="414" />
+
+2. Lidar-Based TTC
+It was required to compute the TTC equation: minCurr*DT / (minPrev-minCurr)
+
+To to it, first the lidar points needed to be filtered, to avoid any noise. Euclidean distance was used and support functions were created:
+clusterHelper, myEuclideanCluster and filterOuitliers.
+Afterwards, the closer points from the lidar roi data were gathered (from the identified object) and the TTC was computed
+<img src="images/lidarTTC.png" width="779" height="414" />
+
+
+3. Camera-based TTC
+Compute the TTC equation now for camera data.
+It was required to find keypoint matches in the expected region of interest. 
+Keypoints matches were done fairly easy, similar to the last project implementing SIFT, ORB, FREAK, AKAZE and BRIEF extractors.
+With these values and storing the matches in a specific object (bbBestMatches).
+
+The computation was done by going over each match and gathering the information between the previous and current camera data.
+Formula in this case was -DT/ (1-meanDistRatio)
+
 
 
 ## Evaluation 1:
@@ -54,5 +80,23 @@ Since previous data was lower than current, the front car accelerated, changing 
 
 
 
+
+
+
+## Evaluation 2:
+
+Showing the plots for all combinations:
+<img src="images/shitomasiResults.png" width="779" height="414" />
+<img src="images/HarrisResults.png" width="779" height="414" />
+<img src="images/FastResults.png" width="779" height="414" />
+<img src="images/BRISKResults.png" width="779" height="414" />
+<img src="images/ORBResults.png" width="779" height="414" />
+<img src="images/AKAZE Results.png" width="779" height="414" />
+<img src="images/SIFTResults.png" width="779" height="414" />
+
+From these graphs we can see that the two combinations with more stability on results were using shitomasi and AKAZE with any Extractor type.
+
+Stability refering it to the ability for gathering more matches between images and calculating a logical TTC.
+Non logical data was taken on values of more than 20 or negative values.
 
 
