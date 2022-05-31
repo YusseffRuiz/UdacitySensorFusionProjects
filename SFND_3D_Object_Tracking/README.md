@@ -44,8 +44,11 @@ It consisted in 2 for loops dedicated to go over the current and previous box on
 2. Lidar-Based TTC
 It was required to compute the TTC equation: minCurr*DT / (minPrev-minCurr)
 
-To to it, first the lidar points needed to be filtered, to avoid any noise. Euclidean distance was used and support functions were created:
-clusterHelper, myEuclideanCluster and filterOuitliers.
+To to it, first the lidar points needed to be filtered, to avoid any noise. 
+To remove outliers we filtered the Lidar data on X values based on standard deviation.
+By identifying data that was out of the upper and lower limits, the data to calculate TTC was based only the filtered.
+<img src="images/filteredDataLidar.png" width="779" height="414" />
+
 Afterwards, the closer points from the lidar roi data were gathered (from the identified object) and the TTC was computed
 <img src="images/lidarTTC.png" width="779" height="414" />
 
@@ -77,6 +80,10 @@ Distance is at 7.205. Same as before, Lidar values give a TTC based on the previ
 <img src="images/TTC_negative.png" width="779" height="414" />
 TTC Lidar shows negative?
 Since previous data was lower than current, the front car accelerated, changing how the value is calculated.
+
+
+As discussed on the previous images, the TTC calculation on the Lidar depends on the values coming from the previous data, and the keypoints detected, so when a car is disaccelerating, the equation will give that previous data was higher, giving incorrect, negative or even values higher than expected.
+The current equation used is for constant velocity, so it cannot handle data with sudden speed changes
 
 
 
