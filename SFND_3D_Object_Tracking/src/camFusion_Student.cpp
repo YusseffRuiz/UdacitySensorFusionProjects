@@ -146,7 +146,7 @@ void clusterKptMatchesWithROI(BoundingBox &boundingBox, std::vector<cv::KeyPoint
     float mean;
     for(auto& match : kptMatches){
         auto &kptPrevPT = kptsPrev[match.queryIdx].pt;
-        auto &kptCurrPT = kptsPrev[match.queryIdx].pt;
+        auto &kptCurrPT = kptsPrev[match.trainIdx].pt;
 
         if(boundingBox.roi.contains(kptPrevPT)){
             roiBox.push_back(match);
@@ -202,7 +202,7 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
             }
         }
     }
-    cout<< "Finished iteration " <<endl;
+    //cout<< "Finished iteration " <<endl;
 
     
 
@@ -219,7 +219,7 @@ void computeTTCCamera(std::vector<cv::KeyPoint> &kptsPrev, std::vector<cv::KeyPo
 
     TTC = -dt / (1-meanDistRatio);
 
-    cout<< "TTC Camera: " << TTC << endl;
+    std::cout<< "TTC Camera: " << TTC << endl;
 
 
 
@@ -356,7 +356,7 @@ void matchBoundingBoxes(std::vector<cv::DMatch> &matches, std::map<int, int> &bb
         bbBestMatches[prevBox.boxID] = arg_max;
 
         
-        std::cout<<"ID Match: " << prevBox.boxID << " => " << arg_max << " Size: " << prevBox.kptMatches.size() << std::endl; 
+        //std::cout<<"ID Match: " << prevBox.boxID << " => " << arg_max << " Size: " << prevBox.kptMatches.size() << std::endl; 
     }
     
 }
